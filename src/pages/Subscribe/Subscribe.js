@@ -1,32 +1,25 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../../config/firebase";
+import { useUser } from "../../context/user";
 
 export function Subscribe() {
-    const [name, setName] = useState("");
+    const { signUp } = useUser()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     function handleSubscribe(e) {
         e.preventDefault()
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert("Cadastrado com suceso!")
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(`Error:${errorCode}\n${errorMessage}`)
-            });
+        if (!email || !password) {
+            alert("Favor preencher os campos")
+            return
+        }
+        signUp({
+            email,
+            password
+        })
     }
+
     return (
         <form onSubmit={handleSubscribe}>
-            <input
-                type="text"
-                value={name}
-                placeholder="Nome"
-                onChange={(e) => setName(e.target.value)}
-            />
             <input
                 type="text"
                 value={email}

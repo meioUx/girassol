@@ -4,11 +4,33 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Subscribe } from './pages/Subscribe/Subscribe';
+import { Login } from './pages/Login/Login';
+import { UserProvider } from './context/user';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/logar",
+    element: <Login />,
+  },
+  {
+    path: "/cadastrar",
+    element: <Subscribe />,
+  },
+]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Subscribe />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
 
